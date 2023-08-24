@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:id="@+id/fmr_produto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    <EditText
+        android:id="@+id/frm_produto_nome_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="Nome"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/frm_produto_descricao_activity"
+        android:layout_width="0dp"
+        android:hint="Descrição"
+        android:inputType="text"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/frm_produto_nome_activity"
+        app:layout_constraintTop_toBottomOf="@id/frm_produto_nome_activity"
+        app:layout_constraintEnd_toEndOf="@id/frm_produto_nome_activity"
+
+        />
+
+    <EditText
+        android:id="@+id/frm_produto_valor_activity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="19.19"
+        android:inputType="numberDecimal"
+        app:layout_constraintStart_toStartOf="@id/frm_produto_descricao_activity"
+        app:layout_constraintTop_toBottomOf="@id/frm_produto_descricao_activity"
+        app:layout_constraintEnd_toEndOf="@id/frm_produto_descricao_activity"
+
+        />
+
+
+        <Button
+            android:id="@+id/frm_produto_btn_salvar_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="Salvar"
+            app:layout_constraintVertical_bias="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frm_produto_valor_activity"
+            tools:layout_editor_absoluteX="16dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
