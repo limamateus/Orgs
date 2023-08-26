@@ -35,8 +35,6 @@ class formulario_produto_activity: AppCompatActivity(R.layout.formulario_produto
        }
 
     }
-
-
     fun CriarProduto(): Produto {
         val campoNome = findViewById<EditText>(R.id.frm_produto_nome_activity)
         val campodescricao = findViewById<EditText>(R.id.frm_produto_descricao_activity)
