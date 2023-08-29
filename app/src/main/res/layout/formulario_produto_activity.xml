@@ -14,40 +14,84 @@
         android:layout_height="wrap_content">
 
 
-    <EditText
-        android:id="@+id/frm_produto_nome_activity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="Nome"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/activity_frm_produto_imagem"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/imagem_padrao" />
 
-    <EditText
-        android:id="@+id/frm_produto_descricao_activity"
-        android:layout_width="0dp"
-        android:hint="Descrição"
-        android:inputType="text"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/frm_produto_nome_activity"
-        app:layout_constraintTop_toBottomOf="@id/frm_produto_nome_activity"
-        app:layout_constraintEnd_toEndOf="@id/frm_produto_nome_activity"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fmr_produto_nome_textInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/activity_frm_produto_imagem"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:hint="Nome"
 
-        />
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+         app:startIconContentDescription="Nome do Boi">
 
-    <EditText
-        android:id="@+id/frm_produto_valor_activity"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="19.19"
-        android:inputType="numberDecimal"
-        app:layout_constraintStart_toStartOf="@id/frm_produto_descricao_activity"
-        app:layout_constraintTop_toBottomOf="@id/frm_produto_descricao_activity"
-        app:layout_constraintEnd_toEndOf="@id/frm_produto_descricao_activity"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fmr_produto_nome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:inputType="text"
+                />
 
-        />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fmr_produto_descricao_textInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fmr_produto_nome_textInputLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:hint="Descricao"
+
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:startIconContentDescription="Nome do Boi">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fmr_produto_descricao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:inputType="text"
+                />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fmr_produto_valor_textInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fmr_produto_descricao_textInputLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:hint="Valor"
+            app:startIconContentDescription="Nome do Boi">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fmr_produto_valor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:inputType="numberDecimal"
+                />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
 
 
         <Button
@@ -58,8 +102,47 @@
             android:text="Salvar"
             app:layout_constraintVertical_bias="1"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frm_produto_valor_activity"
+            app:layout_constraintTop_toBottomOf="@+id/fmr_produto_valor_textInputLayout"
             tools:layout_editor_absoluteX="16dp" />
+
+
+        <!--        <EditText-->
+<!--        android:id="@+id/frm_produto_nome_activity"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="16dp"-->
+<!--        android:hint="Nome"-->
+<!--        android:inputType="text"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/activity_frm_produto_imagem"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/frm_produto_descricao_activity"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:hint="Descrição"-->
+<!--        android:inputType="text"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintStart_toStartOf="@id/frm_produto_nome_activity"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/frm_produto_nome_activity"-->
+<!--        app:layout_constraintEnd_toEndOf="@id/frm_produto_nome_activity"-->
+
+<!--        />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/frm_produto_valor_activity"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="19.19"-->
+<!--        android:inputType="numberDecimal"-->
+<!--        app:layout_constraintStart_toStartOf="@id/frm_produto_descricao_activity"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/frm_produto_descricao_activity"-->
+<!--        app:layout_constraintEnd_toEndOf="@id/frm_produto_descricao_activity"-->
+
+<!--        />-->
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

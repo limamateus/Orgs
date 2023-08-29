@@ -5,8 +5,11 @@
       <map>
         <entry key="..\:/ProjetoMob/Orgs/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2075" />
         <entry key="..\:/ProjetoMob/Orgs/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2075" />
+        <entry key="..\:/ProjetoMob/Orgs/app/src/main/res/drawable/placeholder.xml" value="0.153" />
+        <entry key="..\:/ProjetoMob/Orgs/app/src/main/res/layout/activity_lista_produtos_activity.xml" value="0.33" />
         <entry key="..\:/ProjetoMob/Orgs/app/src/main/res/layout/activity_main.xml" value="0.321285140562249" />
-        <entry key="..\:/ProjetoMob/Orgs/app/src/main/res/layout/formulario_produto_activity.xml" value="0.25" />
+        <entry key="..\:/ProjetoMob/Orgs/app/src/main/res/layout/formulario_imagem.xml" value="0.19041450777202074" />
+        <entry key="..\:/ProjetoMob/Orgs/app/src/main/res/layout/formulario_produto_activity.xml" value="0.1" />
         <entry key="..\:/ProjetoMob/Orgs/app/src/main/res/layout/lista_produtos_activity.xml" value="0.23824959481361427" />
         <entry key="..\:/ProjetoMob/Orgs/app/src/main/res/layout/produto_item.xml" value="0.33" />
       </map>
@@ -17,5 +20,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.33" />
+      </ProjectState>
+    </option>
   </component>
 </project>
