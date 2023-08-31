@@ -6,12 +6,11 @@ import coil.load
 import com.example.orgs.databinding.ActivityViewProdutoDadosBinding
 import com.example.orgs.model.Produto
 
-class Activity_View_Produto_Dados (var produto: Produto): AppCompatActivity() {
-
+class Activity_View_Produto_Dados : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+            val produto = intent.getSerializableExtra("produto") as Produto
         title ="detalhes do produto"
         ActivityViewProdutoDadosBinding.inflate(layoutInflater).apply {
 

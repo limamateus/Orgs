@@ -10,4 +10,4 @@ data class Produto (
     val valor: BigDecimal,
     val imagem: String? = null,
     val imageLoader: ImageLoader? = null
-        )
+        ) : java.io.Serializable

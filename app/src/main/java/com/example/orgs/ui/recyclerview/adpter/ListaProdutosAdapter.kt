@@ -1,5 +1,6 @@
 package com.example.orgs.ui.recyclerview.adpter
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,11 +20,25 @@ import java.util.*
 
 class ListaProdutosAdapter(
     private val context: Context, // Contexto da view
-    produtos : List<Produto> // a lista de produtos
+    produtos : List<Produto>,
+    var quandoClicaNoItemListener: (produto: Produto) -> Unit = {}// a lista de produtos
 ) : RecyclerView.Adapter<ListaProdutosAdapter.ViewHolder>() {
+
     val produtos = produtos.toMutableList() // nesse momento só passo uma copia da lista para variavel
 
-    class ViewHolder(private val binding: ProdutoItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        inner class  ViewHolder(private val binding: ProdutoItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        private lateinit var produto: Produto
+
+//        init {
+//            itemView.setOnClickListener {
+//                Log.i("ListaProdutosAdapter", "clicando no item")
+//                if(::produto.isInitialized) {
+//                    quandoClicaNoItemListener(produto)
+//                }
+//            }
+//        }
 
         fun vincular(produto: Produto) { // crio um metodo para vincular os dados de um layout no outra
             val nome = binding.produtoItemId // definindo que na variavel nome  é o campo produto_item_id, que no caso era nome
@@ -33,7 +48,11 @@ class ListaProdutosAdapter(
 
 
 
-
+            itemView.setOnClickListener {
+                if(produto != null) {
+                    quandoClicaNoItemListener(produto)
+                }
+            }
             nome.text = produto.nome
             descricao.text= produto.descricao
             val valorEmMoeda: String = formatarParaMoedaBrasileira(produto.valor)

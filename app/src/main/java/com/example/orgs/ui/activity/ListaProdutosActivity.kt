@@ -2,10 +2,12 @@ package com.example.orgs.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.orgs.dao.ProdutosDao
 import com.example.orgs.databinding.ActivityListaProdutosActivityBinding
 import com.example.orgs.databinding.ActivityViewProdutoDadosBinding
+import com.example.orgs.model.Produto
 
 import com.example.orgs.ui.recyclerview.adpter.ListaProdutosAdapter
 
@@ -24,13 +26,12 @@ class ListaProdutosActivity:AppCompatActivity() {
 
 
     }
-
-    private  fun abrirVisualizacao(){
+    private  fun abrirVisualizacao(produto: Produto){
 
         val recyclerView = binding.listaProdutoRecyclerView
       recyclerView.setOnClickListener {
 
-          vaiParaActivityProdutoDados()
+        //  vaiParaActivityProdutoDados()
       }
 
     }
@@ -63,16 +64,21 @@ class ListaProdutosActivity:AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun vaiParaActivityProdutoDados() {
+    private fun vaiParaActivityProdutoDados(produto: Produto) {
         val intent = Intent(this, Activity_View_Produto_Dados::class.java).apply {
+               putExtra("produto",produto)
 
-            putExtra()
         }
         startActivity(intent)
     }
     private fun CarregarRecyclerView(){
         val recyclerView = binding.listaProdutoRecyclerView
         recyclerView.adapter = adapter
+         adapter.quandoClicaNoItemListener = {
+        Log.i("ListaProdutosActivity", "quandoClica: ${it.nome}")
+             vaiParaActivityProdutoDados(it)
+
+    }
 
 //        val recyclerView = findViewById<RecyclerView>(R.id.lista_produto_recyclerView)
 
