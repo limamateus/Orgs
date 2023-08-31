@@ -4,10 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/ProjetoMob/Orgs/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2075" />
+        <entry key="..\:/ProjetoMob/Orgs/app/src/main/res/drawable/circle_background.xml" value="0.123" />
         <entry key="..\:/ProjetoMob/Orgs/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2075" />
         <entry key="..\:/ProjetoMob/Orgs/app/src/main/res/drawable/placeholder.xml" value="0.153" />
         <entry key="..\:/ProjetoMob/Orgs/app/src/main/res/layout/activity_lista_produtos_activity.xml" value="0.33" />
         <entry key="..\:/ProjetoMob/Orgs/app/src/main/res/layout/activity_main.xml" value="0.321285140562249" />
+        <entry key="..\:/ProjetoMob/Orgs/app/src/main/res/layout/activity_view_produto_dados.xml" value="0.2727272727272727" />
         <entry key="..\:/ProjetoMob/Orgs/app/src/main/res/layout/formulario_imagem.xml" value="0.19041450777202074" />
         <entry key="..\:/ProjetoMob/Orgs/app/src/main/res/layout/formulario_produto_activity.xml" value="0.1" />
         <entry key="..\:/ProjetoMob/Orgs/app/src/main/res/layout/lista_produtos_activity.xml" value="0.23824959481361427" />

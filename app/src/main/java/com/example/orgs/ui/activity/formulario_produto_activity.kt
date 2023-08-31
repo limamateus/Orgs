@@ -25,7 +25,7 @@ class formulario_produto_activity: AppCompatActivity() {
 
     private var url: String? = null
 
-    private  var imageLoader: ImageLoader? = null
+    var imageLoader: ImageLoader? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,13 +36,13 @@ class formulario_produto_activity: AppCompatActivity() {
         val bindingImagem = FormularioImagemBinding.inflate(layoutInflater)
         binding.activityFrmProdutoImagem.setOnClickListener {
 
-            FrmImagemDialog(this).mostra({
+            FrmImagemDialog(this).mostra(url,imageLoader){
                     imagem, imageL ->
                 url = imagem
                 imageLoader = imageL
                 binding.activityFrmProdutoImagem.tentarCarregarImagemOuGif(url,imageLoader)
             }
-            )
+
 
         }
 

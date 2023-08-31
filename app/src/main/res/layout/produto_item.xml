@@ -20,7 +20,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-
             android:ellipsize="end"
             android:fontFamily="@font/montserrat_bold"
             android:maxLines="1"

@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Build
 import android.view.LayoutInflater
-import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import coil.ImageLoader
 import coil.decode.GifDecoder
@@ -20,16 +19,23 @@ class FrmImagemDialog(
     private  var imageLoader: ImageLoader? = null
 
 
-    fun mostra(quandoImagemCarregado: (
+    fun mostra( xUrl: String? = null,imageLoaderPassada: ImageLoader? = null,quandoImagemCarregado: (
         imagem: String,
         imageLoader: ImageLoader?
     ) -> Unit){
-        val binding= FormularioImagemBinding.inflate(LayoutInflater.from(context))
+        FormularioImagemBinding.inflate(LayoutInflater.from(context)).apply {
+
+            xUrl?.let {
+               fmrDialogImagem.tentarCarregarImagemOuGif(it,imageLoaderPassada)
+
+                fmrDialogUrl.setText(it)
 
 
-            binding.fmrDialogCarregar.setOnClickListener {
+            }
+
+            fmrDialogCarregar.setOnClickListener {
                 // Pego o valor que está no text
-                val url = binding.fmrDialogUrl.text.toString()
+                val url = fmrDialogUrl.text.toString()
 
 
                 imageLoader = ImageLoader.Builder(context)
@@ -42,14 +48,21 @@ class FrmImagemDialog(
 
                     }
                     .build()
-                binding.fmrDialogImagem.tentarCarregarImagemOuGif(url,imageLoader)
+
+
+             fmrDialogImagem.tentarCarregarImagemOuGif(url,imageLoader)
 
 
             }
             AlertDialog.Builder(context)
-                .setView(binding.root)
+                .setView(root)
                 .setPositiveButton("Confirmar", DialogInterface.OnClickListener { _, _ ->
-                  val url = binding.fmrDialogUrl.text.toString()
+                    val url = fmrDialogUrl.text.toString()
+
+                       if(imageLoader == null){
+                           imageLoader = imageLoaderPassada
+
+                   }
                     quandoImagemCarregado(url,imageLoader)
 
                 })
@@ -57,5 +70,9 @@ class FrmImagemDialog(
                 }
                 )
                 .show()
-            }
+        }
+
+        }
+
+
     }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.orgs.dao.ProdutosDao
 import com.example.orgs.databinding.ActivityListaProdutosActivityBinding
+import com.example.orgs.databinding.ActivityViewProdutoDadosBinding
 
 import com.example.orgs.ui.recyclerview.adpter.ListaProdutosAdapter
 
@@ -24,6 +25,15 @@ class ListaProdutosActivity:AppCompatActivity() {
 
     }
 
+    private  fun abrirVisualizacao(){
+
+        val recyclerView = binding.listaProdutoRecyclerView
+      recyclerView.setOnClickListener {
+
+          vaiParaActivityProdutoDados()
+      }
+
+    }
     private fun configuraFab() {
         val fab = binding.listaProdutoFloatingActionButton
         fab.setOnClickListener {
@@ -50,6 +60,14 @@ class ListaProdutosActivity:AppCompatActivity() {
 
     private fun vaiParaFormularioProduto() {
         val intent = Intent(this, formulario_produto_activity::class.java)
+        startActivity(intent)
+    }
+
+    private fun vaiParaActivityProdutoDados() {
+        val intent = Intent(this, Activity_View_Produto_Dados::class.java).apply {
+
+            putExtra()
+        }
         startActivity(intent)
     }
     private fun CarregarRecyclerView(){
