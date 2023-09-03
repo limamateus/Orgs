@@ -19,25 +19,33 @@ import java.util.*
 
 class ListaProdutosAdapter(
     private val context: Context, // Contexto da view
-    produtos : List<Produto> // a lista de produtos
+    produtos : List<Produto>, // a lista de produtos
+    var quandoClicaNoItem: (produto: Produto) -> Unit = {}
 ) : RecyclerView.Adapter<ListaProdutosAdapter.ViewHolder>() {
     val produtos = produtos.toMutableList() // nesse momento só passo uma copia da lista para variavel
 
-    class ViewHolder(private val binding: ProdutoItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ProdutoItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        private lateinit var produto: Produto
+
+
+        init {
+            itemView.setOnClickListener {
+                if (::produto.isInitialized) {
+                    quandoClicaNoItem(produto)
+                }
+            }
+        }
 
         fun vincular(produto: Produto) { // crio um metodo para vincular os dados de um layout no outra
             val nome = binding.produtoItemId // definindo que na variavel nome  é o campo produto_item_id, que no caso era nome
             val descricao = binding.produtoItemNome
             val valor = binding.produtoItemValor
-            binding.imageView.tentarCarregarImagemOuGif(produto.imagem.toString(),produto.imageLoader)
-
-
-
-
+            binding.imageView.tentarCarregarImagemOuGif(produto.imagem.toString())
             nome.text = produto.nome
             descricao.text= produto.descricao
             val valorEmMoeda: String = formatarParaMoedaBrasileira(produto.valor)
-
             valor.text = valorEmMoeda
 
 

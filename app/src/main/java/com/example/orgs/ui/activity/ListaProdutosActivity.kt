@@ -17,23 +17,14 @@ class ListaProdutosActivity:AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityListaProdutosActivityBinding.inflate(layoutInflater)
-        setContentView(this.binding.root)
-
+        setContentView(binding.root)
         CarregarRecyclerView()
         configuraFab()
 
 
     }
 
-    private  fun abrirVisualizacao(){
 
-        val recyclerView = binding.listaProdutoRecyclerView
-      recyclerView.setOnClickListener {
-
-          vaiParaActivityProdutoDados()
-      }
-
-    }
     private fun configuraFab() {
         val fab = binding.listaProdutoFloatingActionButton
         fab.setOnClickListener {
@@ -63,16 +54,21 @@ class ListaProdutosActivity:AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun vaiParaActivityProdutoDados() {
-        val intent = Intent(this, Activity_View_Produto_Dados::class.java).apply {
 
-            putExtra()
-        }
-        startActivity(intent)
-    }
     private fun CarregarRecyclerView(){
         val recyclerView = binding.listaProdutoRecyclerView
         recyclerView.adapter = adapter
+
+        adapter.quandoClicaNoItem = {
+            val intent = Intent(
+                this, Activity_View_Produto_Dados::class.java
+            ).apply{
+                putExtra(CHAVE_PRODUTO, it)
+            }
+            startActivity(intent)
+        }
+
+
 
 //        val recyclerView = findViewById<RecyclerView>(R.id.lista_produto_recyclerView)
 

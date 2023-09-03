@@ -23,7 +23,7 @@ class ProdutosDao {
                 descricao = "Tudo Que eu não gosto",
                 valor = BigDecimal("19.78"),
                 imagem = null,
-                imageLoader = null
+               // imageLoader = null
             )
 
         )
