@@ -9,15 +9,14 @@ import com.example.orgs.extensions.formataParaMoedaBrasileira
 import com.example.orgs.extensions.tentarCarregarImagemOuGif
 import com.example.orgs.model.Produto
 
-class Activity_View_Produto_Dados (): AppCompatActivity() {
+class Activity_View_Produto_Dados: AppCompatActivity() {
     private val binding by lazy {
         ActivityViewProdutoDadosBinding.inflate(layoutInflater)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setContentView(binding.root)
         title ="detalhes do produto"
-
         tentaCarregarProduto()
     }
 

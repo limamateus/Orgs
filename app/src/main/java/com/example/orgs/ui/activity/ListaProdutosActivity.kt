@@ -2,6 +2,7 @@ package com.example.orgs.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.orgs.dao.ProdutosDao
 import com.example.orgs.databinding.ActivityListaProdutosActivityBinding
@@ -12,19 +13,22 @@ import com.example.orgs.ui.recyclerview.adpter.ListaProdutosAdapter
 class ListaProdutosActivity:AppCompatActivity() {
     private  val dao = ProdutosDao()
     private  val adapter = ListaProdutosAdapter(this, produtos = dao.buscaTodos())
-    private  lateinit var binding : ActivityListaProdutosActivityBinding
+
+    private val binding by lazy {
+        ActivityListaProdutosActivityBinding.inflate(layoutInflater)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityListaProdutosActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         CarregarRecyclerView()
         configuraFab()
-
-
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        adapter.atualiza(dao.buscaTodos())
+    }
     private fun configuraFab() {
         val fab = binding.listaProdutoFloatingActionButton
         fab.setOnClickListener {
@@ -32,10 +36,6 @@ class ListaProdutosActivity:AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        adapter.atualiza(dao.buscaTodos())
-    }
 
 
             //findViewById<FloatingActionButton>(R.id.lista_produto_floatingActionButton) // declaro uma variavel o botão de execução
@@ -66,6 +66,7 @@ class ListaProdutosActivity:AppCompatActivity() {
                 putExtra(CHAVE_PRODUTO, it)
             }
             startActivity(intent)
+            Log.i("CarregarRecyclerView","o Problema esta no CarregarRecyclerView")
         }
 
 

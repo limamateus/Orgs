@@ -1,15 +1,9 @@
 package com.example.orgs.ui.recyclerview.adpter
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.RecyclerView
-import coil.ImageLoader
-import coil.load
 import com.example.orgs.databinding.ProdutoItemBinding
-import com.example.orgs.R
 import com.example.orgs.extensions.tentarCarregarImagemOuGif
 import com.example.orgs.model.Produto
 import java.math.BigDecimal
@@ -43,6 +37,7 @@ class ListaProdutosAdapter(
             val descricao = binding.produtoItemNome
             val valor = binding.produtoItemValor
             binding.imageView.tentarCarregarImagemOuGif(produto.imagem.toString())
+
             nome.text = produto.nome
             descricao.text= produto.descricao
             val valorEmMoeda: String = formatarParaMoedaBrasileira(produto.valor)
