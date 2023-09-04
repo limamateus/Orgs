@@ -13,8 +13,6 @@ import com.example.orgs.extensions.tentarCarregarImagemOuGif
 
 class FrmImagemDialog(
     private val context: Context,
-
-
 ) {
     private  var imageLoader: ImageLoader? = null
 

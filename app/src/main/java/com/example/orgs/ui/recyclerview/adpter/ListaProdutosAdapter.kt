@@ -1,86 +1,66 @@
 package com.example.orgs.ui.recyclerview.adpter
 import android.content.Context
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.orgs.databinding.ProdutoItemBinding
 import com.example.orgs.extensions.tentarCarregarImagemOuGif
 import com.example.orgs.model.Produto
+import com.example.orgs.extensions.formataParaMoedaBrasileira
+import com.example.orgs.ui.activity.Activity_View_Produto_Dados
+import com.example.orgs.ui.activity.CHAVE_PRODUTO
 import java.math.BigDecimal
 import java.text.NumberFormat
 import java.util.*
 
 
 class ListaProdutosAdapter(
-    private val context: Context, // Contexto da view
-    produtos : List<Produto>, // a lista de produtos
+    private val context: Context,
+    produtos: List<Produto>,
+    // declaração da função para o listener do adapter
     var quandoClicaNoItem: (produto: Produto) -> Unit = {}
 ) : RecyclerView.Adapter<ListaProdutosAdapter.ViewHolder>() {
-    val produtos = produtos.toMutableList() // nesse momento só passo uma copia da lista para variavel
 
+    private val produtos = produtos.toMutableList()
+
+    // utilização do inner na classe interna para acessar membros da classe superior
+    // nesse caso, a utilização da variável quandoClicaNoItem
     inner class ViewHolder(private val binding: ProdutoItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        // Considerando que o ViewHolder modifica de valor com base na posição
+        // é necessário o uso de properties mutáveis, para evitar nullables
+        // utilizamos o lateinit, properties que podem ser inicializar depois
         private lateinit var produto: Produto
 
-
         init {
+            // implementação do listener do adapter
             itemView.setOnClickListener {
+                // verificação da existência de valores em property lateinit
                 if (::produto.isInitialized) {
                     quandoClicaNoItem(produto)
                 }
             }
         }
 
-        fun vincular(produto: Produto) { // crio um metodo para vincular os dados de um layout no outra
-            val nome = binding.produtoItemId // definindo que na variavel nome  é o campo produto_item_id, que no caso era nome
-            val descricao = binding.produtoItemNome
-            val valor = binding.produtoItemValor
-            binding.imageView.tentarCarregarImagemOuGif(produto.imagem.toString())
-
+        fun vincula(produto: Produto) {
+            this.produto = produto
+            val nome = binding.produtoItemId
             nome.text = produto.nome
-            descricao.text= produto.descricao
-            val valorEmMoeda: String = formatarParaMoedaBrasileira(produto.valor)
+            val descricao = binding.produtoItemNome
+            descricao.text = produto.descricao
+            val valor = binding.produtoItemValor
+            val valorEmMoeda: String = produto.valor
+                .formataParaMoedaBrasileira()
             valor.text = valorEmMoeda
 
+            binding.imageView.tentarCarregarImagemOuGif(produto.imagem)
 
 
-//            if(produto.imagem != null || produto.imagem != ""){
-//                if(produto.imageLoader == null){
-//                    image.load(produto.imagem){
-//                        fallback(R.drawable.erro)
-//                        error(R.drawable.erro)
-//
-//                    }
-//                }else{
-//                    image.load(produto.imagem,produto.imageLoader){
-//                        fallback(R.drawable.erro)
-//                        error(R.drawable.erro)
-//                    }
-//                }
-//
-//            }
-
-
-            //        fun vincular(produto: Produto) { // crio um metodo para vincular os dados de um layout no outra
-//            val nome = itemView.findViewById<TextView>(R.id.produto_item_id) // definindo que na variavel nome  é o campo produto_item_id, que no caso era nome
-//            val descricao = itemView.findViewById<TextView>(R.id.produto_item_nome)
-//            val valor = itemView.findViewById<TextView>(R.id.produto_item_valor)
-//
-//            nome.text = produto.nome
-//            descricao.text= produto.descricao
-//            valor.text = produto.valor.toPlainString()
-
-
-        }
-
-        private fun formatarParaMoedaBrasileira(valor: BigDecimal): String {
-            val numberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "br"))
-            val valorEmMoeda: String = numberFormat.format(valor)
-            return valorEmMoeda
         }
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
        val inflater = LayoutInflater.from(context) // crio uma infrator onde irá pegar o contexto passado no paramentro
        val binding = ProdutoItemBinding.inflate(inflater,parent,false) // crio uma view
@@ -89,7 +69,8 @@ class ListaProdutosAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
       val produto = produtos[position] // aqui é a posição que será passadao
-        holder.vincular(produto)
+        holder.vincula(produto)
+
 
     }
 

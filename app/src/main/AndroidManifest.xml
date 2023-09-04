@@ -21,9 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.Activity_View_Produto_Dados"
-            android:exported="true"/>
 
+            <activity android:name=".ui.activity.Activity_View_Produto_Dados"/>
         <activity android:name=".ui.activity.formulario_produto_activity"
             android:exported="true">
         </activity>

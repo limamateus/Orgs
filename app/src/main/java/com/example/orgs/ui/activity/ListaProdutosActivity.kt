@@ -64,7 +64,10 @@ class ListaProdutosActivity:AppCompatActivity() {
                 this, Activity_View_Produto_Dados::class.java
             ).apply{
                 putExtra(CHAVE_PRODUTO, it)
+
+
             }
+
             startActivity(intent)
             Log.i("CarregarRecyclerView","o Problema esta no CarregarRecyclerView")
         }

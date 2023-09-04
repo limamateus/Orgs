@@ -2,9 +2,7 @@ package com.example.orgs.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import coil.load
 import com.example.orgs.databinding.ActivityViewProdutoDadosBinding
-import com.example.orgs.databinding.ProdutoItemBinding.inflate
 import com.example.orgs.extensions.formataParaMoedaBrasileira
 import com.example.orgs.extensions.tentarCarregarImagemOuGif
 import com.example.orgs.model.Produto
@@ -20,13 +18,13 @@ class Activity_View_Produto_Dados: AppCompatActivity() {
         tentaCarregarProduto()
     }
 
-
     private fun tentaCarregarProduto() {
+        // tentativa de buscar o produto se ele existir,
+        // caso contrário, finalizar a Activity
         intent.getParcelableExtra<Produto>(CHAVE_PRODUTO)?.let { produtoCarregado ->
             preencheCampos(produtoCarregado)
         } ?: finish()
     }
-
     private fun preencheCampos(produtoCarregado: Produto) {
         with(binding) {
             activityViewProdutoDadosImagemView.tentarCarregarImagemOuGif(produtoCarregado.imagem)
