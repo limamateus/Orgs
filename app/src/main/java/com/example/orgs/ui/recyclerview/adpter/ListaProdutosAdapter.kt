@@ -104,7 +104,7 @@ class ListaProdutosAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-      val produto = produtos[position] // aqui é a posição que será passadao
+       val produto = produtos[position] // aqui é a posição que será passadao
         holder.vincular(produto)
 
     }
