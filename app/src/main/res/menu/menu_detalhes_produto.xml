@@ -12,10 +12,9 @@
 
     <item
         android:id="@+id/menuRemover"
-        android:title="Remover"
         android:icon="@drawable/ic_romover"
-        app:showAsAction="ifRoom"
-        />
+        android:title="Remover"
+        app:showAsAction="ifRoom" />
 
 
 </menu>

@@ -68,13 +68,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
+            android:onClick="showPopup"
             android:textColor="@android:color/holo_green_dark"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:onClick="showPopup"
-            tools:text=" R$ Menu" />
+            tools:text="Menu" />
 
         <ImageView
             android:id="@+id/imageView"

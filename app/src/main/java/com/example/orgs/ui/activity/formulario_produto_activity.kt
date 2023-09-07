@@ -8,6 +8,7 @@ import coil.ImageLoader
 import com.example.orgs.database.AppDatabase
 import com.example.orgs.databinding.FormularioImagemBinding
 import com.example.orgs.databinding.FormularioProdutoActivityBinding
+import com.example.orgs.extensions.formataParaMoedaBrasileira
 import com.example.orgs.extensions.tentarCarregarImagemOuGif
 import com.example.orgs.model.Produto
 import com.example.orgs.ui.dialog.FrmImagemDialog
@@ -25,7 +26,7 @@ class formulario_produto_activity: AppCompatActivity() {
     }
 
     private var url: String? = null
-
+    private var  produtoId = 0L
     var imageLoader: ImageLoader? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +48,18 @@ class formulario_produto_activity: AppCompatActivity() {
 
         }
 
+        intent.getParcelableExtra<Produto>(CHAVE_PRODUTO)?.let{
+            produtoCarregado ->
+            title = "Editar Produto"
+            produtoId = produtoCarregado.id
+            url = produtoCarregado.imagem
+            binding.fmrProdutoNome.setText(produtoCarregado.nome.toString())
+            binding.fmrProdutoDescricao.setText(produtoCarregado.descricao.toString())
+            binding.activityFrmProdutoImagem.tentarCarregarImagemOuGif(produtoCarregado.imagem)
+            binding.fmrProdutoValor.setText(produtoCarregado.valor.toPlainString())
 
+
+        }
     }
 
     private fun configuraBotaoSalvar(){
@@ -65,7 +77,12 @@ class formulario_produto_activity: AppCompatActivity() {
 
             val produtoDao = db.produtoDao()
 
-        produtoDao.salva( produto )
+            if(produtoId > 0 ){
+                produtoDao.alterar(produto)
+            }else{
+                produtoDao.salva( produto )
+
+            }
             finish()
 
         }
@@ -81,33 +98,14 @@ class formulario_produto_activity: AppCompatActivity() {
         val valorEmCampo = campoValor.text.toString()
 
         var valor = if(valorEmCampo.isBlank()){
-
             BigDecimal.ZERO
         }else{
             BigDecimal(valorEmCampo)
         }
 
-        return Produto(id = 0L,nome,desc,valor, imagem = url)
+        return Produto(id =produtoId, nome =nome, descricao = desc, valor = valor, imagem = url)
     }
 
 
-//    fun CriarProduto(): Produto {
-//        val campoNome = findViewById<EditText>(R.id.frm_produto_nome_activity)
-//        val campodescricao = findViewById<EditText>(R.id.frm_produto_descricao_activity)
-//        val campoValor = findViewById<EditText>(R.id.frm_produto_valor_activity)
-//
-//        val nome = campoNome.text.toString()
-//        val desc = campodescricao.text.toString()
-//        val valorEmCampo = campoValor.text.toString()
-//
-//        var valor = if(valorEmCampo.isBlank()){
-//
-//            BigDecimal.ZERO
-//        }else{
-//            BigDecimal(valorEmCampo)
-//        }
-//
-//        return Produto(nome,desc,valor)
-//    }
 
 }

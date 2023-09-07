@@ -3,8 +3,12 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
+import com.example.orgs.R
 import com.example.orgs.databinding.ProdutoItemBinding
 import com.example.orgs.extensions.tentarCarregarImagemOuGif
 import com.example.orgs.model.Produto
@@ -70,7 +74,6 @@ class ListaProdutosAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
       val produto = produtos[position] // aqui é a posição que será passadao
         holder.vincula(produto)
-
 
     }
 

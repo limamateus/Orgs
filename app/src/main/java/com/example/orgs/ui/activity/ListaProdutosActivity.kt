@@ -8,24 +8,22 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
-import androidx.room.Room
+import androidx.core.view.get
+import androidx.recyclerview.widget.RecyclerView
 import com.example.orgs.R
-import com.example.orgs.database.AppDatabase
 import com.example.orgs.database.AppDatabase.Companion.instaciaDB
+import com.example.orgs.database.dao.ProdutoDao
 import com.example.orgs.databinding.ActivityListaProdutosActivityBinding
-import com.example.orgs.databinding.ActivityViewProdutoDadosBinding
 import com.example.orgs.model.Produto
-
 import com.example.orgs.ui.recyclerview.adpter.ListaProdutosAdapter
-import java.math.BigDecimal
+
 
 class ListaProdutosActivity:AppCompatActivity() {
     private  val adapter = ListaProdutosAdapter(this)
-
     private val binding by lazy {
         ActivityListaProdutosActivityBinding.inflate(layoutInflater)
     }
-
+    private  lateinit var produtoDao : ProdutoDao
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -34,31 +32,13 @@ class ListaProdutosActivity:AppCompatActivity() {
 
     }
 
-    fun showPopup(v: View) {
-        val popup = PopupMenu(this, v)
-        val inflater: MenuInflater = popup.menuInflater
-        inflater.inflate(R.menu.menu_detalhes_produto, popup.menu)
-        popup.show()
-    }
 
-//    override fun onMenuItemClick(item: MenuItem): Boolean {
-//        return when (item.itemId) {
-//            R.id.menuEdit -> {
-//               // archive(item)
-//                true
-//            }
-//            R.id.menuRemover -> {
-//               // Remover
-//                true
-//            }
-//            else -> false
-//        }
-//    }
+
     override fun onResume() {
         super.onResume()
 
         val db = instaciaDB(this)
-        val produtoDao = db.produtoDao()
+         produtoDao = db.produtoDao()
 
         adapter.atualiza(produtoDao.buscaTodos())
        // adapter.atualiza(dao.buscaTodos())
@@ -68,6 +48,16 @@ class ListaProdutosActivity:AppCompatActivity() {
         fab.setOnClickListener {
             vaiParaFormularioProduto()
         }
+    }
+
+    fun showPopup(v: View) {
+        val popup = PopupMenu(this, v)
+        val inflater: MenuInflater = popup.menuInflater
+         inflater.inflate(R.menu.menu_detalhes_produto, popup.menu)
+
+        popup.show()
+
+
     }
 
 
@@ -92,6 +82,7 @@ class ListaProdutosActivity:AppCompatActivity() {
     private fun CarregarRecyclerView(){
         val recyclerView = binding.listaProdutoRecyclerView
         recyclerView.adapter = adapter
+
 
         adapter.quandoClicaNoItem = {
             val intent = Intent(
