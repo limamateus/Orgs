@@ -3,8 +3,9 @@ package com.example.orgs.ui.activity
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
 import coil.ImageLoader
-import com.example.orgs.dao.ProdutosDao
+import com.example.orgs.database.AppDatabase
 import com.example.orgs.databinding.FormularioImagemBinding
 import com.example.orgs.databinding.FormularioProdutoActivityBinding
 import com.example.orgs.extensions.tentarCarregarImagemOuGif
@@ -54,14 +55,17 @@ class formulario_produto_activity: AppCompatActivity() {
 
         btnSalvar.setOnClickListener {
 
-            // val produto = produto()
-            val dao = ProdutosDao()
             //val produto = CriarProduto()
             val produto = CriarProdutoBinding()
-            dao.add(produto)
-            Log.i("FrmProduto","onCreate : $produto")
-            Log.i("FrmProduto","onCreate : ${dao.buscaTodos()}")
+////            dao.add(produto)
+//            Log.i("FrmProduto","onCreate : $produto")
+//            Log.i("FrmProduto","onCreate : ${dao.buscaTodos()}")
 
+            val db = AppDatabase.instaciaDB(this) //Criou a instacia
+
+            val produtoDao = db.produtoDao()
+
+        produtoDao.salva( produto )
             finish()
 
         }
@@ -83,7 +87,7 @@ class formulario_produto_activity: AppCompatActivity() {
             BigDecimal(valorEmCampo)
         }
 
-        return Produto(nome,desc,valor, imagem = url)
+        return Produto(id = 0L,nome,desc,valor, imagem = url)
     }
 
 
