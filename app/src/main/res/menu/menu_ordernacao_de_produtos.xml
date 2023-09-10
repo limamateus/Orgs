@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_lista_produtos_ordenar_nome_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="nome desc" />
+    <item
+
+        android:id="@+id/menu_lista_produtos_ordenar_nome_asc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="nome asc" />
+    <item
+
+        android:id="@+id/produtos_ordenar_descricao_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="descrição desc" />
+    <item
+
+        android:id="@+id/menu_lista_produtos_ordenar_descricao_asc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="descrição asc" />
+    <item
+
+        android:id="@+id/menu_lista_produtos_ordenar_valor_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="valor desc" />
+    <item
+
+        android:id="@+id/menu_lista_produtos_ordenar_valor_asc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="valor asc" />
+    <item
+
+        android:id="@+id/menu_lista_produtos_ordenar_sem_ordem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="sem ordenação" />
+
+
+</menu>

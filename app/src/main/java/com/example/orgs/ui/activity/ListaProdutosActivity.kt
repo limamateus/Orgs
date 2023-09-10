@@ -3,16 +3,16 @@ package com.example.orgs.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
-import androidx.core.view.get
-import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.widget.Toolbar
+import androidx.appcompat.widget.TooltipCompat
 import com.example.orgs.R
 import com.example.orgs.database.AppDatabase.Companion.instaciaDB
-import com.example.orgs.database.dao.ProdutoDao
 import com.example.orgs.databinding.ActivityListaProdutosActivityBinding
 import com.example.orgs.model.Produto
 import com.example.orgs.ui.recyclerview.adpter.ListaProdutosAdapter
@@ -23,7 +23,11 @@ class ListaProdutosActivity:AppCompatActivity() {
     private val binding by lazy {
         ActivityListaProdutosActivityBinding.inflate(layoutInflater)
     }
-    private  lateinit var produtoDao : ProdutoDao
+
+    private  val produtoDao by lazy {
+       instaciaDB(this).produtoDao()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -36,9 +40,6 @@ class ListaProdutosActivity:AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
-        val db = instaciaDB(this)
-         produtoDao = db.produtoDao()
 
         adapter.atualiza(produtoDao.buscaTodos())
        // adapter.atualiza(dao.buscaTodos())
@@ -74,8 +75,35 @@ class ListaProdutosActivity:AppCompatActivity() {
 
 
     private fun vaiParaFormularioProduto() {
-        val intent = Intent(this, formulario_produto_activity::class.java)
+        val intent = Intent(this, FormularioProdutoActivity::class.java)
         startActivity(intent)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean { // Esse metodo serve para colocar o menu na activity
+        menuInflater.inflate(R.menu.menu_ordernacao_de_produtos, menu)
+        return super.onCreateOptionsMenu(menu)
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val produtoOrdenado: List<Produto>? = when(item.itemId){
+            R.id.menu_lista_produtos_ordenar_nome_asc ->
+                produtoDao.buscaTodosOrdenadorPorNomeAsc()
+            R.id.menu_lista_produtos_ordenar_nome_desc ->
+                produtoDao.buscaTodosOrdenadorPorNomeDesc()
+            R.id.menu_lista_produtos_ordenar_descricao_asc ->
+                produtoDao.buscaTodosOrdenadorPorDescricaoAsc()
+            R.id.menu_lista_produtos_ordenar_valor_asc ->
+                produtoDao.buscaTodosOrdenadorPorValorAsc()
+            R.id.menu_lista_produtos_ordenar_valor_desc ->
+                produtoDao.buscaTodosOrdenadorPorValorDesc()
+            R.id.menu_lista_produtos_ordenar_sem_ordem ->
+                produtoDao.buscaTodos()
+            else -> null
+        }
+
+        produtoOrdenado?.let { adapter.atualiza(it) }
+        return super.onOptionsItemSelected(item)
     }
 
 
@@ -88,10 +116,8 @@ class ListaProdutosActivity:AppCompatActivity() {
             val intent = Intent(
                 this, Activity_View_Produto_Dados::class.java
             ).apply{
-                putExtra(CHAVE_PRODUTO, it)
-
+                putExtra(CHAVE_PRODUTO_ID, it.id)
             }
-
             startActivity(intent)
             Log.i("CarregarRecyclerView","o Problema esta no CarregarRecyclerView")
         }
