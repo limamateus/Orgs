@@ -2,20 +2,26 @@ package com.example.orgs.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import coil.ImageLoader
 import com.example.orgs.database.AppDatabase
-import com.example.orgs.databinding.FormularioImagemBinding
 import com.example.orgs.databinding.FormularioProdutoActivityBinding
 import com.example.orgs.extensions.tentarCarregarImagemOuGif
 import com.example.orgs.model.Produto
 import com.example.orgs.ui.dialog.FrmImagemDialog
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.math.BigDecimal
 
 
 class FormularioProdutoActivity : AppCompatActivity() {
 
     //  private val produto = CriarProduto()
-//    private val dao = ProdutosDao()
+    //    private val dao = ProdutosDao()
+
 
     private val binding by lazy {
         FormularioProdutoActivityBinding.inflate(layoutInflater)
@@ -23,9 +29,9 @@ class FormularioProdutoActivity : AppCompatActivity() {
 
     private var url: String? = null
     private var produtoId = 0L//
-    private  var imageLoader: ImageLoader? = null
+    private var imageLoader: ImageLoader? = null
     private val produtoDao by lazy {
-        AppDatabase.instaciaDB(this).produtoDao() //Criou a instacia
+        AppDatabase.instancia(this).produtoDao() //Criou a instacia
 
     }
 
@@ -37,7 +43,7 @@ class FormularioProdutoActivity : AppCompatActivity() {
         configuraBotaoSalvar()
         binding.activityFrmProdutoImagem.setOnClickListener {
             FrmImagemDialog(this)
-                .mostra(url,imageLoader) { imagem, imageLo ->
+                .mostra(url, imageLoader) { imagem, imageLo ->
                     url = imagem
                     imageLoader = imageLo
                     binding.activityFrmProdutoImagem.tentarCarregarImagemOuGif(url)
@@ -55,7 +61,7 @@ class FormularioProdutoActivity : AppCompatActivity() {
 //            binding.fmrProdutoValor.setText(produtoCarregado.valor.toPlainString())}
 
 
-           tentaCarregarProduto()
+        tentaCarregarProduto()
     }
 
     private fun tentaCarregarProduto() {
@@ -63,26 +69,30 @@ class FormularioProdutoActivity : AppCompatActivity() {
     }
 
 
-    fun preencherCampos(produto: Produto) {
+    fun preencheCampos(produto: Produto) {
 
-            produtoId = produto.id
-            url = produto.imagem
-            binding.fmrProdutoNome.setText(produto.nome.toString())
-            binding.fmrProdutoDescricao.setText(produto.descricao.toString())
-            binding.activityFrmProdutoImagem.tentarCarregarImagemOuGif(produto.imagem)
-            binding.fmrProdutoValor.setText(produto.valor.toPlainString())
+        produtoId = produto.id
+        url = produto.imagem
+        binding.fmrProdutoNome.setText(produto.nome.toString())
+        binding.fmrProdutoDescricao.setText(produto.descricao.toString())
+        binding.activityFrmProdutoImagem.tentarCarregarImagemOuGif(produto.imagem)
+        binding.fmrProdutoValor.setText(produto.valor.toPlainString())
     }
 
     override fun onResume() {
         super.onResume()
-        buscarProduto()
+        tentaBuscarProduto()
 
     }
 
-    private fun buscarProduto() {
-        produtoDao.BuscarProdutoId(produtoId)?.let {
-            title = "Editar Produto"
-            preencherCampos(it)
+    private fun tentaBuscarProduto() {
+        lifecycleScope.launch {
+            produtoDao.BuscarProdutoId(produtoId).collect {
+                it?.let { produtoEncontrado ->
+                    title = "Alterar produto"
+                    preencheCampos(produtoEncontrado)
+                }
+            }
         }
     }
 
@@ -91,21 +101,12 @@ class FormularioProdutoActivity : AppCompatActivity() {
         val btnSalvar = binding.frmProdutoBtnSalvarActivity
 
         btnSalvar.setOnClickListener {
-
-            //val produto = CriarProduto()
             val Novoproduto = CriarProdutoBinding()
-////            dao.add(produto)
-//            Log.i("FrmProduto","onCreate : $produto")
-//            Log.i("FrmProduto","onCreate : ${dao.buscaTodos()}")
+            lifecycleScope.launch {
+                produtoDao.salva(Novoproduto)
+                finish()
+            }
 
-//            if (produtoId > 0) {
-//                produtoDao.alterar(produto)
-//            } else {
-//                produtoDao.salva(produto)
-//
-//            }
-            produtoDao.salva(Novoproduto)
-            finish()
 
         }
     }

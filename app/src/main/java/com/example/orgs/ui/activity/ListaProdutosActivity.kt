@@ -9,23 +9,24 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
-import androidx.appcompat.widget.Toolbar
-import androidx.appcompat.widget.TooltipCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.orgs.R
-import com.example.orgs.database.AppDatabase.Companion.instaciaDB
+import com.example.orgs.database.AppDatabase
 import com.example.orgs.databinding.ActivityListaProdutosActivityBinding
 import com.example.orgs.model.Produto
 import com.example.orgs.ui.recyclerview.adpter.ListaProdutosAdapter
+import kotlinx.coroutines.launch
 
 
 class ListaProdutosActivity:AppCompatActivity() {
     private  val adapter = ListaProdutosAdapter(this)
+
     private val binding by lazy {
         ActivityListaProdutosActivityBinding.inflate(layoutInflater)
     }
 
     private  val produtoDao by lazy {
-       instaciaDB(this).produtoDao()
+       AppDatabase.instancia(this).produtoDao()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,16 +35,19 @@ class ListaProdutosActivity:AppCompatActivity() {
         CarregarRecyclerView()
         configuraFab()
 
+        lifecycleScope.launch {
+            produtoDao.buscaTodos().collect{
+                produtos ->
+                adapter.atualiza(produtos)
+            }
+        }
+
+
     }
 
 
 
-    override fun onResume() {
-        super.onResume()
 
-        adapter.atualiza(produtoDao.buscaTodos())
-       // adapter.atualiza(dao.buscaTodos())
-    }
     private fun configuraFab() {
         val fab = binding.listaProdutoFloatingActionButton
         fab.setOnClickListener {
@@ -86,23 +90,27 @@ class ListaProdutosActivity:AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val produtoOrdenado: List<Produto>? = when(item.itemId){
-            R.id.menu_lista_produtos_ordenar_nome_asc ->
-                produtoDao.buscaTodosOrdenadorPorNomeAsc()
-            R.id.menu_lista_produtos_ordenar_nome_desc ->
-                produtoDao.buscaTodosOrdenadorPorNomeDesc()
-            R.id.menu_lista_produtos_ordenar_descricao_asc ->
-                produtoDao.buscaTodosOrdenadorPorDescricaoAsc()
-            R.id.menu_lista_produtos_ordenar_valor_asc ->
-                produtoDao.buscaTodosOrdenadorPorValorAsc()
-            R.id.menu_lista_produtos_ordenar_valor_desc ->
-                produtoDao.buscaTodosOrdenadorPorValorDesc()
-            R.id.menu_lista_produtos_ordenar_sem_ordem ->
-                produtoDao.buscaTodos()
-            else -> null
+        lifecycleScope.launch {
+            val produtoOrdenado:  List<Produto>? = when(item.itemId){
+
+                R.id.menu_lista_produtos_ordenar_nome_asc ->
+                    produtoDao.buscaTodosOrdenadorPorNomeAsc()
+                R.id.menu_lista_produtos_ordenar_nome_desc ->
+                    produtoDao.buscaTodosOrdenadorPorNomeDesc()
+                R.id.menu_lista_produtos_ordenar_descricao_asc ->
+                    produtoDao.buscaTodosOrdenadorPorDescricaoAsc()
+                R.id.menu_lista_produtos_ordenar_valor_asc ->
+                    produtoDao.buscaTodosOrdenadorPorValorAsc()
+                R.id.menu_lista_produtos_ordenar_valor_desc ->
+                    produtoDao.buscaTodosOrdenadorPorValorDesc()
+
+                else -> null
+            }
+            produtoOrdenado?.let { adapter.atualiza(it) }
         }
 
-        produtoOrdenado?.let { adapter.atualiza(it) }
+
+
         return super.onOptionsItemSelected(item)
     }
 

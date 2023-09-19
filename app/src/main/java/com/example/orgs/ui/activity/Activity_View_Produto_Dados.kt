@@ -4,26 +4,35 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.orgs.R
 import com.example.orgs.database.AppDatabase
 import com.example.orgs.databinding.ActivityViewProdutoDadosBinding
 import com.example.orgs.extensions.formataParaMoedaBrasileira
 import com.example.orgs.extensions.tentarCarregarImagemOuGif
 import com.example.orgs.model.Produto
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Activity_View_Produto_Dados : AppCompatActivity() {
+    private var produtoId: Long = 0L
+    private var produto: Produto? = null
+
     private val binding by lazy {
         ActivityViewProdutoDadosBinding.inflate(layoutInflater)
     }
 
     private val produtoDao by lazy {
-        AppDatabase.instaciaDB(this).produtoDao() // irei criar uma instacia de db
+        AppDatabase.instancia(this).produtoDao() // irei criar uma instacia de db
 //        var produtoDao = db.produtoDao() // pegar o produtoDao
     }
-    private var produtoId : Long = 0L
 
-    private  var produto: Produto? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -33,15 +42,19 @@ class Activity_View_Produto_Dados : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        buscarProdutoNoBanco()
+        buscaProduto()
 
     }
 
-    private fun buscarProdutoNoBanco() {
-        produto = produtoDao.BuscarProdutoId(produtoId)
-        produto?.let { // Verifico se o produto é diferente de nullo antes de passar para metedo que irá carregar os dados na tela
-            preencheCampos(it)
-        } ?: finish() // Se for nulo irei finalizar a tela.
+    private fun buscaProduto() {
+        lifecycleScope.launch {
+            produtoDao.BuscarProdutoId(produtoId).collect { produtoEncontrado ->
+                produto = produtoEncontrado
+                produto?.let {
+                    preencheCampos(it)
+                } ?: finish()
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean { // Esse metodo serve para colocar o menu na activity
@@ -51,30 +64,34 @@ class Activity_View_Produto_Dados : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean { // Esse metodo serve para pegar informação do Menu item Selecionado.
-       // Se o produto foi inicializado certo e for diferente de nullo
+        // Se o produto foi inicializado certo e for diferente de nullo
 
 
-            when (item.itemId) { //
-                R.id.menuRemover -> {
+        when (item.itemId) { //
+            R.id.menuRemover -> {
+
+                lifecycleScope.launch {
                     produto?.let {
                         produtoDao.remover(it) // removo o produto
                     }
 
                     finish() // volto para tela
                 }
+            }
 
-                R.id.menuEdit -> { // Crio uma intente que irá abrir a tela do formulario e passar os dados do produto.
+
+            R.id.menuEdit -> { // Crio uma intente que irá abrir a tela do formulario e passar os dados do produto.
 //                    Intent(this, formulario_produto_activity::class.java).apply {
 //                        putExtra(CHAVE_PRODUTO, produto)
 //                        startActivity(this)
 //                    }
 
-                    Intent(this,FormularioProdutoActivity::class.java).apply {
-                        putExtra(CHAVE_PRODUTO_ID,produtoId)
-                        startActivity(this)
-                    }
-
+                Intent(this, FormularioProdutoActivity::class.java).apply {
+                    putExtra(CHAVE_PRODUTO_ID, produtoId)
+                    startActivity(this)
                 }
+
+            }
 
         }
 
@@ -90,7 +107,7 @@ class Activity_View_Produto_Dados : AppCompatActivity() {
 //            produtoId = produtoCarregado.id
 //            preencheCampos(produtoCarregado)
 
-         produtoId = intent.getLongExtra(CHAVE_PRODUTO_ID,0L)
+        produtoId = intent.getLongExtra(CHAVE_PRODUTO_ID, 0L)
 
     }
 

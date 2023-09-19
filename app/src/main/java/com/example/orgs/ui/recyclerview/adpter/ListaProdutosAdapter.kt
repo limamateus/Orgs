@@ -1,23 +1,12 @@
 package com.example.orgs.ui.recyclerview.adpter
 import android.content.Context
-import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
-import com.example.orgs.R
 import com.example.orgs.databinding.ProdutoItemBinding
+import com.example.orgs.extensions.formataParaMoedaBrasileira
 import com.example.orgs.extensions.tentarCarregarImagemOuGif
 import com.example.orgs.model.Produto
-import com.example.orgs.extensions.formataParaMoedaBrasileira
-import com.example.orgs.ui.activity.Activity_View_Produto_Dados
-import com.example.orgs.ui.activity.CHAVE_PRODUTO
-import java.math.BigDecimal
-import java.text.NumberFormat
-import java.util.*
 
 
 class ListaProdutosAdapter(
